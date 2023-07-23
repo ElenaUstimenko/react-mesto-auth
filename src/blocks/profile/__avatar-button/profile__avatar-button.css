@@ -1,0 +1,19 @@
+.profile__avatar-button {
+  width: 26px;
+  height: 26px;
+  background-image: url(../../../images/button/PenFotProfile.svg);
+  background-color: transparent;
+  margin: 47px;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  padding: 0;
+  position: absolute;
+  opacity: 0;
+  z-index: 2;
+}
+
+.profile__avatar-button:hover {
+  cursor: pointer;
+  opacity: 1;
+} 

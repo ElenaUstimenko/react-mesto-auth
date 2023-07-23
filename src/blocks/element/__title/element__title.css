@@ -1,0 +1,12 @@
+.element__title {
+  max-width: 246px;
+  width: calc(100% - 22px);
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  color: #000000;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 0;
+}

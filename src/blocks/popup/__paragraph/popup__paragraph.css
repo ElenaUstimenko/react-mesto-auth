@@ -1,0 +1,19 @@
+.popup__paragraph {
+  margin: 0;
+  margin-left: 0;
+  font-size: 12px;
+  line-height: 15px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  max-width: 291px;
+  position: absolute;
+  bottom: -25px;
+}
+
+@media screen and (max-width: 320px) {
+  .popup__paragraph {
+    max-width: 240px;
+  }
+}

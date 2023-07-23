@@ -1,0 +1,9 @@
+.element__group_like {
+  max-width: 246px;
+  padding-left: 21px;
+  padding-right: 19px;
+  margin: 20px 0 0 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

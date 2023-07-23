@@ -1,0 +1,11 @@
+.profile__group-avatar {
+  display:flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.profile__group-avatar:hover {
+  opacity: 0.8;
+}

@@ -1,0 +1,35 @@
+.header {
+  max-width: 880px;
+  width: 100%;
+  margin: 45px auto 0 auto;
+  box-sizing: border-box;
+  border-bottom: 1px solid #545454;
+  border-color:rgba(84, 84, 84, 0.7);
+}
+
+@media screen and (max-width: 910px) {
+  .header {
+    max-width: 710px;
+  }
+}
+
+@media screen and (max-width: 748px) {
+  .header {
+    max-width: 548px;
+  }
+}
+
+@media screen and (max-width: 578px) {
+  .header {
+    max-width: 478px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .header {
+    max-width: 320px;
+    margin-top: 28px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
