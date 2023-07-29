@@ -1,0 +1,16 @@
+.login__paragraph {
+  font-size: 24px;
+  line-height: 29.05px;
+  color: rgba(0, 0, 0, 1);
+  max-width: 358px;
+  font-weight: 900;
+  text-align: center; 
+  margin: 32px auto 60px auto;
+  padding: 0;
+};
+
+@media screen and (max-width: 320px) {
+  .popup__paragraph {
+    max-width: 244px;
+  }
+};

@@ -1,0 +1,9 @@
+.header__exit {
+  align-self: right;
+  line-height: 22px;
+  text-decoration: none;
+  color: rgba(169, 169, 169, 1);
+  font-size: 18px;
+  font-weight: 400;
+  padding: 0;
+}

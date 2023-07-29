@@ -25,10 +25,6 @@ class Api {
   getCards() {
     return fetch(`${this._url}/cards`, {
       method: "GET",
-      /*headers: {
-        authorization: this.authorization,
-        'Content-type': 'application/json'
-      },*/
       headers: this._headers,
     })
     .then(this._handleResponse)
@@ -38,10 +34,6 @@ class Api {
   getUserIDInfo() {
     return fetch(`${this._url}/users/me`, {
       method: "GET",
-      /*headers: {
-        authorization: this.authorization,
-        'Content-type': 'application/json'
-      },*/
       headers: this._headers,
     })
     .then(this._handleResponse)
@@ -51,10 +43,6 @@ class Api {
   newCardData({name, link}) {
     return fetch(`${this._url}/cards`, {
       method: "POST",
-      /*headers: {
-        authorization: this.authorization,
-        'Content-type': 'application/json'
-      },*/
       headers: this._headers,
       body: JSON.stringify({
         name: name,
@@ -67,10 +55,6 @@ class Api {
   photoOfAvatar(avatar) {
   return fetch(`${this._url}/users/me/avatar`, {
     method: "PATCH",
-    /*headers: {
-        authorization: this.authorization,
-        'Content-type': 'application/json'
-      },*/
     headers: this._headers,
     body: JSON.stringify(avatar)
     }).then(this._handleResponse)
@@ -80,10 +64,6 @@ class Api {
   userInformation({ name, about }) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
-      /*headers: {
-        authorization: this.authorization,
-        'Content-type': 'application/json'
-      },*/
       headers: this._headers,
       body: JSON.stringify({
         name: name,
@@ -96,10 +76,6 @@ class Api {
   addLike(cardID) {
     return fetch(`${this._url}/cards/likes/${cardID}`, {
       method: "PUT",
-      /*headers: {
-        authorization: this.authorization,
-        'Content-type': 'application/json'
-      },*/
       headers: this._headers,
     }).then(this._handleResponse)
   };
@@ -107,10 +83,6 @@ class Api {
   deleteLike(cardID) {
     return fetch(`${this._url}/cards/likes/${cardID}`, {
       method: "DELETE",
-      /*headers: {
-        authorization: this.authorization,
-        'Content-type': 'application/json'
-      },*/
       headers: this._headers,
     }).then(this._handleResponse)
   };
@@ -119,10 +91,6 @@ class Api {
   deleteCard(cardID) {
     return fetch(`${this._url}/cards/${cardID}`, {
       method: "DELETE",
-      /*headers: {
-        authorization: this.authorization,
-        'Content-type': 'application/json'
-      },*/
       headers: this._headers,
     })
   .then(this._handleResponse)

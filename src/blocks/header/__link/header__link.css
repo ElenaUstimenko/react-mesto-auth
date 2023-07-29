@@ -1,0 +1,9 @@
+.header__link {
+align-self: right;
+line-height: 22px;
+text-decoration: none;
+color: rgba(255, 255, 255, 1);
+font-size: 18px;
+font-weight: 400;
+padding: 0;
+};

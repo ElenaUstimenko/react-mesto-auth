@@ -3,6 +3,7 @@ import { api } from '../utils/Api.js';
 import { Card } from './Card.js';
 import { App } from './App.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
+import { Footer } from './Footer.js'
 
 function Main(props) {
   // передали обработчики с помощью новых пропсов, чтобы их использовать
@@ -37,6 +38,7 @@ function Main(props) {
         onCardDelete={onCardDelete} {...item} />
         ))}
       </ul>
+      < Footer />
     </main>
   )
 };

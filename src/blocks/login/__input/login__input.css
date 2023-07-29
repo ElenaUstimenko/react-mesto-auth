@@ -1,0 +1,5 @@
+.login__input {
+  background-color: rgba(0, 0, 0, 1);
+  color: rgba(204, 204, 204, 1);
+  border-bottom: 2px solid rgba(204, 204, 204, 1);
+}
