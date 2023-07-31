@@ -6,7 +6,7 @@ import { PopupWithForm } from './PopupWithForm.js';
 
 
 function AddPlacePopup(props) {
-  const { isOpen, onClose } = props;
+  const { isOpen, onClose, isLoading } = props;
 
   // подписываемся на CurrentUserContext и получаем значение контекста
   const currentUser = React.useContext(CurrentUserContext); 
@@ -45,7 +45,7 @@ function AddPlacePopup(props) {
 
   return (
   <PopupWithForm name="popup_add-image" title="Новое место" isOpen={isOpen} 
-  onClose={onClose} buttonText={"Сохранить"} onSubmit={handleSubmit} >
+  onClose={onClose} buttonText={isLoading ? 'Сохранение...' : 'Сохранить'} onSubmit={handleSubmit} >
       <label className="popup__field">
         <input
           id="place-input"

@@ -5,7 +5,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import { PopupWithForm } from './PopupWithForm.js';
 
 function EditProfilePopup(props) {
-  const { isOpen, onClose } = props;
+  const { isOpen, onClose, isLoading } = props;
 
   // подписываемся на CurrentUserContext и получаем значение контекста
   const currentUser = React.useContext(CurrentUserContext); 
@@ -30,17 +30,18 @@ function EditProfilePopup(props) {
     setDescription(currentUser?.about ??'');
   }, [currentUser, isOpen]);
 
+
   function handleSubmit(evt) {
-    // запрещаем браузеру переходить по адресу формы
     evt.preventDefault();
-    // передаём значения управляемых компонентов во внешний обработчик
-    props.onUpdateUser({ name, about: description });
-  }
+
+      // передаём значения управляемых компонентов во внешний обработчик
+      props.onUpdateUser({ name, about: description });
+  };
 
   return (
     // значение элемента «привязывается» к значению стейта
     <PopupWithForm name="popup_edit-profile" title="Редактировать профиль" isOpen={isOpen} 
-        onClose={onClose} buttonText={"Сохранить"} onSubmit={handleSubmit}> 
+        onClose={onClose} buttonText={isLoading ? 'Сохранение...' : 'Сохранить'} onSubmit={handleSubmit}> 
             <label className="popup__field">
               <input 
                 id="name-input"

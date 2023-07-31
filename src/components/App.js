@@ -21,31 +21,65 @@ import { register, login, checkToken } from '../utils/Auth.js';
 function App(props) {
   //////////////////////////////////////////////////////////////////////////////////////////// регистрация и авторизация
   const navigate = useNavigate();
-  
+
   // хранение состояния авторизации (true/false)
   const [loggedIn, setLoggedIn] = useState(false);
+  // хранение email авторизированного пользователя
+  const [isHeaderEmail, setIsHeaderEmail] = useState('');
 
   // checkToken - вызывается при монтировании App, и отправляет запрос checkToken если jwt есть в хранилище
   useEffect (() => {
-    const /*jwt*/token = localStorage.getItem(/*'jwt'*/'token');
-      if(/*jwt*/token) {
-        auth(/*jwt*/token);
+    const token = localStorage.getItem('token');
+      if(token) {
+        checkToken(token)
+        .then((res) => {
+          if(res.data) {
+            setLoggedIn(true);
+            navigate('/');
+            setIsHeaderEmail(res.data.email);
+            // console.log(res)
+          } else {
+            navigate('/sign-in');
+          }
+        }).catch(console.error)
       }
-  }, [loggedIn]);
+  }, []);
 
-  const auth = (/*jwt*/token) => {
-    return checkToken(/*jwt*/token).then((res) => {
+  useEffect (() => {
+    if (loggedIn)
+    Promise.all([api.getCards(), api.getUserIDInfo()])
+    .then(([cards, currentUser]) => {
+        setCards(cards);
+        setCurrentUser({
+          name: currentUser.name,
+          about: currentUser.about,
+          avatar: currentUser.avatar,
+          _id: currentUser._id,
+        })
+    }).catch(console.error)
+  }, [loggedIn]);
+ 
+  // previous version
+  /*useEffect (() => {
+    const token = localStorage.getItem('token');
+      if(token) {
+        auth(token);
+      }
+  }, []);
+  const auth = (token, email) => {
+    return checkToken(token).then((res) => {
       if (res) {
         setLoggedIn(true);
         navigate('/');
+        setIsHeaderEmail(email);
       }
-    })
-  };
-  
+    }).catch(console.error)
+  };*/
+
   // хранение состояния открытия попапа успеха или ошибки регистрации
   const [isSuccessPopupOpen, setSuccessPopupOpen] = useState(false);
   // хранение состояния изменения картинки в зависимости от ситуации
-  const [isSuccessImage, setIsSuccessImage] = React.useState(false);
+  const [isSuccessImage, setIsSuccessImage] = useState(false);
 
   // handleRegister - передается в <Register />, при вызове отправляет запрос регистрации, 
   // в зависимости от результата задается стейт для <InfoTooltip /> 
@@ -69,9 +103,6 @@ function App(props) {
     })
   };
 
-  // хранение email авторизированного пользователя
-  const [isHeaderEmail, setIsHeaderEmail] = useState(false);
-
   // handleLogin - передается в <Login />, при вызове отправляет запрос авторизации, 
   // в случае успеха сохраняет email в стейте главного компонента, 
   // затем устанавливает в стейте флажок который говорит о том что пользователь залогинился, 
@@ -83,12 +114,12 @@ function App(props) {
       
       if (res.token) {
         setLoggedIn(true);
-        localStorage.setItem(/*'jwt'*/'token', res.token)
-        console.log(localStorage.getItem(/*'jwt'*/'token'))
+        localStorage.setItem('token', res.token)
+        console.log(localStorage.getItem('token'))
         navigate('/')
         setIsHeaderEmail(email);
       }
-    })
+    }).catch(console.error)
   };
 
   // handleSignout - передается в компонент Header, в котором будет кнопка выхода, 
@@ -97,10 +128,16 @@ function App(props) {
 
   const handleSignout = (res) => {
     setLoggedIn(false);
-    localStorage.removeItem(/*'jwt'*/'token'/*, res.token*/);
+    localStorage.removeItem('token');
     navigate('/sign-in');
   };
   
+  /////////////////////////////////////////////////////////////////////////////////////////////////////// сохранение
+  // переменная для отслеживания состояния загрузки во время ожидания ответа от серверa
+  // до вызова запроса true и в блоке finally после вызова запроса false
+  // передать isLoading в каждый попап и там менять текст кнопки
+  const [isLoading, setIsLoading] = useState(false);
+
   /////////////////////////////////////////////////////////////////////////////////////////////////////// 3 popups
   
   // объявляем переменные состояния с исходным значением
@@ -173,7 +210,7 @@ function App(props) {
   useEffect(() => {
     api.getUserIDInfo()
     .then((currentUser) => {
-      console.log(currentUser);
+      //console.log(currentUser);
     // user information - обновление стейт переменной из получ.значения
     setCurrentUser({
       name: currentUser.name,
@@ -220,24 +257,29 @@ function App(props) {
   };
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////// edit profile
-  
+
+
   // после завершения запроса обновляем стейт currentUser из полученных данных 
   const handleUpdateUser = ({name, about}) => {
-   
+    setIsLoading(true);
+    // debugger
     api.userInformation({name, about})
     .then((newProfile) => {
       setCurrentUser(newProfile)
        closeAllPopups();
+       setIsLoading(false);
+       // debugger
     }).catch(console.error)
-  }
-
+  };
   /////////////////////////////////////////////////////////////////////////////////////////////////////// edit avatar
   
   const handleUpdateAvatar = (avatar) => {
+    setIsLoading(true);
     api.photoOfAvatar(avatar)
     .then((newAvatar) => {
       setCurrentUser(newAvatar)
       closeAllPopups();
+      setIsLoading(false);
     }).catch(console.error)
   };
 
@@ -245,14 +287,16 @@ function App(props) {
   
   // в data name и link 
   const handleAddPlaceSubmit = (data) => {
+    setIsLoading(true);
     api.newCardData(data)
     .then((newCard)=> {
       setCards([newCard, ...cards]);
       closeAllPopups();
       // console.log(data)
+      setIsLoading(false);
     }).catch(console.error)
   };
- 
+
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
@@ -260,7 +304,7 @@ function App(props) {
       <div className="page">
         <Header
         onSignOut={handleSignout}
-        headerEmail={isHeaderEmail}
+        email={isHeaderEmail}
         />
         <Routes>
           <Route path='/' element={
@@ -279,15 +323,17 @@ function App(props) {
           <Route path='/sign-up' element={<Register onRegister={handleRegister}/>} />
           <Route path='*' element={loggedIn ? <Navigate to='/' replace /> : <Navigate to='/sign-in' replace />} />
         </Routes>
-        
+
+        {loggedIn && <Footer />}
+
         <EditProfilePopup isOpen={isEditProfilePopupOpen} 
-        onClose={closeAllPopups} onUpdateUser={handleUpdateUser} /> 
+        onClose={closeAllPopups} onUpdateUser={handleUpdateUser} isLoading={isLoading} /> 
          
         <AddPlacePopup isOpen={isAddPlacePopupOpen} 
-        onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
+        onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} isLoading={isLoading} />
 
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} 
-        onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+        onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} isLoading={isLoading} />
           
         <PopupWithForm name="popup_confirm-delete" title="Вы уверены?" buttonText={"Да"} />
          

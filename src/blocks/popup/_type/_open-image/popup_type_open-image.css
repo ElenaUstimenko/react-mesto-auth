@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, .9);
   transition: opacity 1s linear, visibility 1s linear;
   opacity: 0;
   visibility: hidden;

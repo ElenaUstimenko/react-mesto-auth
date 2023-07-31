@@ -5,7 +5,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import { PopupWithForm } from './PopupWithForm.js';
 
 function EditAvatarPopup(props) {
-  const { isOpen, onClose } = props;
+  const { isOpen, onClose, isLoading } = props;
 
 // подписываемся на CurrentUserContext и получаем значение контекста
 const currentUser = React.useContext(CurrentUserContext);
@@ -24,7 +24,7 @@ const currentUser = React.useContext(CurrentUserContext);
 // указали элементу атрибут ref => получили прямой доступ к DOM-элементу
   return(
     <PopupWithForm name="popup_update-avatar" title="Обновить аватар" isOpen={isOpen} 
-        onClose={onClose} buttonText={"Сохранить"} onSubmit={handleSubmit}>
+        onClose={onClose} buttonText={isLoading ? 'Сохранение...' : 'Сохранить'} onSubmit={handleSubmit}>
             <label className="popup__field">
               <input
                 id="link-inputAvatar"
