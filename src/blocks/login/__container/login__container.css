@@ -4,5 +4,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  padding-left: auto;
+  padding-right: auto;
   background-color: rgba(0, 0, 0, 0.15);
 };
