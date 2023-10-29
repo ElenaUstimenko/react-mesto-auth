@@ -7,10 +7,10 @@
   text-align: center; 
   margin: 32px auto 60px auto;
   padding: 0;
-};
+}
 
 @media screen and (max-width: 320px) {
   .popup__paragraph {
     max-width: 244px;
   }
-};
+}
